@@ -52,6 +52,17 @@ public class Main {
         System.out.println("Welcome to the Multiplication Learning Game!");
     }
 
+
+    // TODO: if name is required in the future, make this method return a string and return the name
+    public void inputName(){
+        System.out.println("Please enter your name: ");
+        String name = scanner.nextLine();
+
+    }
+    public void startGame(){
+
+    }
+
     public static void main(String[] args) {
         displayHomeScreen();
         displayMenuOptions();
