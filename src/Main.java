@@ -4,6 +4,9 @@ public class Main {
 
     static int lowerBound = 1;
     static int upperBound = 10;
+
+    static int successiveCorrectAnswers;
+    static int successiveWrongAnswers;
     static  Scanner scanner = new Scanner(System.in);
 
     public static int generateRandomNumber() {
@@ -26,7 +29,7 @@ public class Main {
 
     public static void processOption(int option){
         switch (option) {
-            case 1 ->  /*startGame()*/ System.out.println("Start Game");
+            case 1 ->  startGame();
             case 2 -> /*showHelp()*/ System.out.println("Help");
             case 3 -> /*showHighScore()*/ System.out.println("Show High Score");
             case 4 -> {
@@ -54,12 +57,20 @@ public class Main {
 
 
     // TODO: if name is required in the future, make this method return a string and return the name
-    public void inputName(){
+    public static void inputName(){
         System.out.println("Please enter your name: ");
         String name = scanner.nextLine();
 
     }
-    public void startGame(){
+    public static void initializeGameVariables(){
+        successiveCorrectAnswers = 0;
+        successiveWrongAnswers = 0;
+    }
+
+    public static void startGame(){
+        inputName();
+        initializeGameVariables();
+
 
     }
 
