@@ -4,6 +4,9 @@ public class Main {
 
     static int lowerBound = 1;
     static int upperBound = 10;
+    static int difficulty = 1;
+    static int score = 0;
+
 
     static int successiveCorrectAnswers;
     static int successiveWrongAnswers;
@@ -13,7 +16,7 @@ public class Main {
         return (int) (Math.random() * (upperBound - lowerBound + 1) + lowerBound);
     }
 
-    public static int ValidateOption(){
+    public static int validateOption(){
         try{
             return Integer.parseInt(scanner.nextLine());
         }catch (NumberFormatException e){
@@ -24,7 +27,7 @@ public class Main {
 
     public static int chooseOption() {
         System.out.print("Please choose an option (1-4): ");
-            return ValidateOption();
+            return validateOption();
     }
 
     public static void processOption(int option){
@@ -65,15 +68,69 @@ public class Main {
     public static void initializeGameVariables(){
         successiveCorrectAnswers = 0;
         successiveWrongAnswers = 0;
+        score = 0;
+        difficulty = 1;
+        lowerBound = 1;
+        upperBound = 10;
     }
 
     public static void startGame(){
         inputName();
         initializeGameVariables();
-
+        for (int i = 0; i < 20; i++) {
+            if (!askQuestion()) {
+                System.out.println("Please ask your teacher for extra help.");
+                break;
+            }
+        }
+        score = score<0 ? 0 : score;
+        System.out.println("High Score: " + score);
 
     }
+    public static boolean askQuestion() {
+        int num1 = generateRandomNumber();
+        int num2 = generateRandomNumber();
 
+        System.out.println("What is " + num1 + " * " + num2 + "?");
+        int userAnswer = validateOption();
+
+        int correctAnswer = num1 * num2;
+
+        if (userAnswer == correctAnswer) {
+            successiveCorrectAnswers++;
+            successiveWrongAnswers = 0;
+            score += 10;
+            System.out.println("Correct!");
+
+            if (successiveCorrectAnswers == 3) {
+                if (difficulty == 3) {
+                    System.out.println("You answered 3 correct at level 3! You won the game!");
+                    return false;
+                } else {
+                    increaseDifficulty();
+                }
+            }
+        } else {
+            successiveWrongAnswers++;
+            successiveCorrectAnswers = 0;
+            score -= 5;
+            System.out.println("Wrong answer!");
+
+            if (successiveWrongAnswers == 3) {
+                System.out.println("Game over. You've made 3 successive wrong answers.");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void increaseDifficulty() {
+        difficulty++;
+        successiveCorrectAnswers = 0;
+        lowerBound *= 2;
+        upperBound *= 2;
+        System.out.println("Difficulty increased to level " + difficulty + ". Numbers are now larger.");
+    }
     public static void main(String[] args) {
         displayHomeScreen();
         displayMenuOptions();
