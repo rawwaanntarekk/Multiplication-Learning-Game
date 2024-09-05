@@ -111,31 +111,40 @@ public static void showHighScore() {
         int correctAnswer = num1 * num2;
 
         if (userAnswer == correctAnswer) {
-            successiveCorrectAnswers++;
-            successiveWrongAnswers = 0;
-            score += 10;
-            System.out.println("Correct!");
-
-            if (successiveCorrectAnswers == 3) {
-                if (difficulty == 3) {
-                    System.out.println("You answered 3 correct at level 3! You won the game!");
-                    return false;
-                } else {
-                    increaseDifficulty();
-                }
-            }
+            return !handleCorrectAnswer();
         } else {
-            successiveWrongAnswers++;
-            successiveCorrectAnswers = 0;
-            score -= 5;
-            System.out.println("Wrong answer!");
+            return !handleWrongAnswer();
+        }
+    }
 
-            if (successiveWrongAnswers == 3) {
-                System.out.println("Game over. You've made 3 successive wrong answers.");
-                return false;
+    private static boolean handleWrongAnswer() {
+        successiveWrongAnswers++;
+        successiveCorrectAnswers = 0;
+        score -= 5;
+        System.out.println("Wrong answer!");
+
+        if (successiveWrongAnswers == 3) {
+            System.out.println("Game over. You've made 3 successive wrong answers.");
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean handleCorrectAnswer() {
+        successiveCorrectAnswers++;
+        successiveWrongAnswers = 0;
+        score += 10;
+        System.out.println("Correct!");
+
+        if (successiveCorrectAnswers == 3) {
+            if (difficulty == 3) {
+                System.out.println("You answered 3 correct at level 3! You won the game!");
+                return true;
+            } else {
+                increaseDifficulty();
             }
         }
-        return true;
+        return false;
     }
 
     public static void increaseDifficulty() {
